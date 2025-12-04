@@ -3,7 +3,7 @@ void loadFromFile() {
     if (!fp) return;
 
     char line[300];
-    fgets(line, sizeof(line), fp); // Skip header
+    fgets(line, sizeof(line), fp); 
     
     Book *tail = NULL;
     char title[MAX_TITLE], author[MAX_AUTHOR];
@@ -11,7 +11,6 @@ void loadFromFile() {
     int maxId = 0;
     
     while (fgets(line, sizeof(line), fp)) {
-        // Parse CSV: ID,"Title","Author",Year,IsIssued
         if (sscanf(line, "%d,\"%99[^\"]\",\"%99[^\"]\"%*[,]%d,%d", &id, title, author, &year, &isIssued) == 5) {
             Book *b = createBook(id, title, author, year, isIssued);
             if (!head) head = tail = b;
