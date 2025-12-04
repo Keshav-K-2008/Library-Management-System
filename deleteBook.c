@@ -1,15 +1,15 @@
 void deleteBook() {
     int id; printf("\nEnter ID to Delete: "); scanf("%d", &id); getchar();
 
-    Book *t = head, *p = NULL;
-    while (t) {
-        if (t->id == id) {
-            if (!p) head = t->next;
-            else p->next = t->next;
-            printf("\nDeleted: %s\n", t->title);
-            free(t); return;
+    for (int i = 0; i < bookCount; i++) {
+        if (books[i].id == id) {
+            printf("\nDeleted: %s\n", books[i].title);
+            for (int j = i; j < bookCount - 1; j++) {
+                books[j] = books[j + 1];
+            }
+            bookCount--;
+            return;
         }
-        p = t; t = t->next;
     }
     printf("\nNot Found!\n");
 }

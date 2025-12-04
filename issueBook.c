@@ -1,13 +1,11 @@
 void issueBook() {
     int id; printf("\nEnter ID to Issue: "); scanf("%d", &id); getchar();
-    Book *t = head;
-    while (t) {
-        if (t->id == id) {
-            if (t->isIssued) printf("\nAlready Issued!\n");
-            else { t->isIssued = 1; printf("\nIssued: %s\n", t->title); }
+    for (int i = 0; i < bookCount; i++) {
+        if (books[i].id == id) {
+            if (books[i].isIssued) printf("\nAlready Issued!\n");
+            else { books[i].isIssued = 1; printf("\nIssued: %s\n", books[i].title); }
             return;
         }
-        t = t->next;
     }
     printf("\nNot Found!\n");
 }

@@ -4,29 +4,26 @@ void searchBook() {
 
     if (ch == 1) {
         int id; printf("Enter ID: "); scanf("%d", &id); getchar();
-        Book *t = head;
-        while (t) {
-            if (t->id == id) {
-                printf("\nFound: %s (%s)\n", t->title, t->author);
+        for (int i = 0; i < bookCount; i++) {
+            if (books[i].id == id) {
+                printf("\nFound: %s (%s)\n", books[i].title, books[i].author);
                 return;
             }
-            t = t->next;
         }
         printf("\nNot Found!\n");
 
     } else {
-        char title[MAX_TITLE];
-        printf("Enter Title: "); fgets(title, MAX_TITLE, stdin);
+        char title[100];
+        printf("Enter Title: "); fgets(title, 100, stdin);
         title[strcspn(title, "\n")] = 0;
-        Book *t = head; int f = 0;
+        int f = 0;
 
-        while (t) {
-            if (strstr(t->title, title)) {
+        for (int i = 0; i < bookCount; i++) {
+            if (strstr(books[i].title, title)) {
                 if (!f) printf("\nMatches:\n");
-                printf("%d - %s\n", t->id, t->title);
+                printf("%d - %s\n", books[i].id, books[i].title);
                 f = 1;
             }
-            t = t->next;
         }
         if (!f) printf("\nNo Match!\n");
     }

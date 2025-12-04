@@ -2,25 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_TITLE 100
-#define MAX_AUTHOR 100
-#define FILENAME "library.csv"
-
 typedef struct Book {
     int id, year, isIssued;
-    char title[MAX_TITLE], author[MAX_AUTHOR];
-    struct Book *next;
+    char title[100], author[100];
 } Book;
 
-Book *head = NULL;
+Book books[10000];
+int bookCount = 0;
 int nextId = 1;
 
-Book* createBook(int id, char *title, char *author, int year, int isIssued) {
-    Book *b = (Book*)malloc(sizeof(Book));
-    if (!b) return NULL;
-    b->id = id; b->year = year; b->isIssued = isIssued;
-    strcpy(b->title, title); strcpy(b->author, author);
-    b->next = NULL; return b;
+void createBook(int id, char title[100], char author[100], int year, int isIssued) {
+    if (bookCount >= 10000) return;
+    books[bookCount].id = id;
+    books[bookCount].year = year;
+    books[bookCount].isIssued = isIssued;
+    strcpy(books[bookCount].title, title);
+    strcpy(books[bookCount].author, author);
+    bookCount++;
 }
 
 #include "addbook.c"
@@ -34,12 +32,15 @@ Book* createBook(int id, char *title, char *author, int year, int isIssued) {
 #include "saveToFile.c"
 #include "searchBook.c"
 int main() {
-    int ch; loadFromFile();
+    int ch; 
+    loadFromFile();
     printf("\n=== LIBRARY MANAGEMENT SYSTEM ===\n");
 
     while (1) {
         displayMenu();
-        printf("Choice: "); scanf("%d", &ch); getchar();
+        printf("Choice: ");
+        scanf("%d", &ch);
+        getchar();
 
         switch (ch) {
             case 1: addBook(); break;
