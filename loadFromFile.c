@@ -8,6 +8,7 @@ void loadFromFile() {
     Book *tail = NULL;
     char title[MAX_TITLE], author[MAX_AUTHOR];
     int id, year, isIssued;
+    int maxId = 0;
     
     while (fgets(line, sizeof(line), fp)) {
         // Parse CSV: ID,"Title","Author",Year,IsIssued
@@ -15,7 +16,9 @@ void loadFromFile() {
             Book *b = createBook(id, title, author, year, isIssued);
             if (!head) head = tail = b;
             else { tail->next = b; tail = b; }
+            if (id > maxId) maxId = id;
         }
     }
     fclose(fp);
+    nextId = maxId + 1;
 }
