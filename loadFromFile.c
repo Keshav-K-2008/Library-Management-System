@@ -1,14 +1,21 @@
 void loadFromFile() {
-    FILE *fp = fopen(FILENAME, "rb");
+    FILE *fp = fopen(FILENAME, "r");
     if (!fp) return;
 
-    fread(&nextId, sizeof(int), 1, fp);
-    Book temp, *tail = NULL;
-
-    while (fread(&temp, sizeof(Book), 1, fp)) {
-        Book *b = createBook(temp.id, temp.title, temp.author, temp.year, temp.isIssued);
-        if (!head) head = tail = b;
-        else { tail->next = b; tail = b; }
+    char line[300];
+    fgets(line, sizeof(line), fp); // Skip header
+    
+    Book *tail = NULL;
+    char title[MAX_TITLE], author[MAX_AUTHOR];
+    int id, year, isIssued;
+    
+    while (fgets(line, sizeof(line), fp)) {
+        // Parse CSV: ID,"Title","Author",Year,IsIssued
+        if (sscanf(line, "%d,\"%99[^\"]\",\"%99[^\"]\"%*[,]%d,%d", &id, title, author, &year, &isIssued) == 5) {
+            Book *b = createBook(id, title, author, year, isIssued);
+            if (!head) head = tail = b;
+            else { tail->next = b; tail = b; }
+        }
     }
     fclose(fp);
 }

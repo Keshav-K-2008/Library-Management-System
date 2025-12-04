@@ -4,7 +4,7 @@
 
 #define MAX_TITLE 100
 #define MAX_AUTHOR 100
-#define FILENAME "library.dat"
+#define FILENAME "library.csv"
 
 typedef struct Book {
     int id, year, isIssued;
